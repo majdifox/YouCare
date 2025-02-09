@@ -10,7 +10,6 @@ class AuthController {
         $this->userModel = new User();
     }
 
-    // REGISTER METHOD (kept as before)
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Common fields
@@ -42,7 +41,7 @@ class AuthController {
         }
     }
 
-    // LOGIN METHOD (updated with session check and role-based redirection)
+    
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email    = $_POST['email'] ?? '';
@@ -57,7 +56,6 @@ class AuthController {
                 }
                 $_SESSION['user'] = $user;
 
-                // Redirect based on the user's role
                 switch ($user['role']) {
                     case 'admin':
                         header("Location: index.php?action=admin_dashboard");
