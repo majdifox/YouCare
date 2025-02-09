@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
-    'Core\\' => array($baseDir . '/Core'),
-    'App\\' => array($baseDir . '/App'),
+    'Core\\' => array($baseDir . '/core'),
+    'App\\Views\\' => array($baseDir . '/app/views'),
+    'App\\Models\\' => array($baseDir . '/app/models'),
+    'App\\Controllers\\' => array($baseDir . '/app/controllers'),
 );

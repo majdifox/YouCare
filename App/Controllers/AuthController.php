@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
 
+
+
 class AuthController {
     private $userModel;
 
@@ -8,7 +10,7 @@ class AuthController {
         $this->userModel = new User();
     }
 
-    // Handle user registration with role-based fields
+    // REGISTER METHOD (kept as before)
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Common fields
@@ -19,6 +21,7 @@ class AuthController {
             $phone      = $_POST['phone'] ?? '';
             $role       = $_POST['role'] ?? '';
 
+            // Role-specific extra fields
             $extra = [];
             if ($role === 'doctor') {
                 $extra['speciality'] = $_POST['speciality'] ?? '';
@@ -35,12 +38,11 @@ class AuthController {
                 echo "Registration failed!";
             }
         } else {
-            // Display registration form if not a POST request
             include __DIR__ . '/../views/register.php';
         }
     }
 
-    // Handle user login
+    // LOGIN METHOD (updated with session check and role-based redirection)
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email    = $_POST['email'] ?? '';
@@ -49,9 +51,27 @@ class AuthController {
             $user = $this->userModel->login($email, $password);
 
             if ($user) {
-                session_start();
+                // Check if a session is already started to avoid duplicate session_start() calls.
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
                 $_SESSION['user'] = $user;
-                header("Location: dashboard.php");
+
+                // Redirect based on the user's role
+                switch ($user['role']) {
+                    case 'admin':
+                        header("Location: index.php?action=admin_dashboard");
+                        break;
+                    case 'doctor':
+                        header("Location: index.php?action=doctor_dashboard");
+                        break;
+                    case 'patient':
+                        header("Location: index.php?action=patient_dashboard");
+                        break;
+                    default:
+                        header("Location: index.php");
+                        break;
+                }
                 exit();
             } else {
                 echo "Invalid login credentials!";

@@ -4,5 +4,3 @@ session_start();
 
 // Include the Router which handles routing based on query parameter
 require_once 'core/Router.php';
-$db = new Database();
-var_dump($db);

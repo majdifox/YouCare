@@ -1,11 +1,13 @@
 {
-    "require": {
-        "twig/twig": "~1.0"
-    },
+    "name": "majdifoxx/youcare",
+    "description": "you're in safe hands with Youcare.",
     "autoload": {
         "psr-4": {
-             "Core\\": "Core/",
-             "App\\": "App/"
+            "Core\\": "core/",
+            "App\\Controllers\\": "app/controllers/",
+            "App\\Models\\": "app/models/",
+            "App\\Views\\": "app/views/"
         }
-    }
+    },
+    "require": {}
 }
