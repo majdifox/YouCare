@@ -1,5 +1,4 @@
 <?php
-// File: /app/models/Admin.php
 require_once __DIR__ . '/../../core/Database.php';
 
 class Admin {
@@ -9,20 +8,17 @@ class Admin {
         $this->db = new Database();
     }
     
-    // Get all users from the users table
     public function getAllUsers(){
         $this->db->query("SELECT * FROM public.users WHERE role <> 'admin'  ORDER BY created_at DESC");
         return $this->db->fetchAll();
     }
     
-    // Get a single user by id
     public function getUserById($id){
         $this->db->query("SELECT * FROM public.users WHERE id = :id");
         $this->db->bind(':id', $id);
         return $this->db->fetch();
     }
     
-    // Update user data (common fields)
     public function updateUser($id, $first_name, $last_name, $email, $phone, $role){
         $sql = "UPDATE public.users 
                 SET first_name = :first_name, 
@@ -42,7 +38,6 @@ class Admin {
         return $this->db->execute();
     }
     
-    // Delete a user by id
     public function deleteUser($id){
         $this->db->query("DELETE FROM public.users WHERE id = :id");
         $this->db->bind(':id', $id);
@@ -66,7 +61,6 @@ class Admin {
         return $this->db->fetchAll();
     }
     
-    // Update the status of a rendez-vous (e.g., confirm it)
     public function updateRdvStatus($id, $status){
         $this->db->query("UPDATE public.rendez_vous SET status = :status, updated_at = CURRENT_TIMESTAMP WHERE id = :id");
         $this->db->bind(':status', $status);
@@ -74,14 +68,12 @@ class Admin {
         return $this->db->execute();
     }
     
-    // Delete a rendez-vous
     public function deleteRdv($id){
         $this->db->query("DELETE FROM public.rendez_vous WHERE id = :id");
         $this->db->bind(':id', $id);
         return $this->db->execute();
     }
     
-    // Get statistics: count of patients and confirmed consultations
     public function getStatistics(){
         // Count patients (users with role 'patient')
         $this->db->query("SELECT COUNT(*) AS patient_count FROM public.users WHERE role = 'patient'");
