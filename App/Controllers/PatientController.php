@@ -9,9 +9,6 @@ class PatientController {
         $this->patientModel = new Patient();
     }
     
-    // Display the patient dashboard:
-    // - Shows the patient’s appointments.
-    // - Provides a form to book a new appointment.
     public function dashboard() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -29,16 +26,13 @@ class PatientController {
         }
         $patient_id = $patientRecord['id'];
         
-        // Retrieve all appointments for this patient.
         $appointments = $this->patientModel->getAppointments($patient_id);
-        
-        // Retrieve list of doctors for the appointment booking form.
+
         $doctorList = $this->patientModel->getDoctorList();
         
         include __DIR__ . '/../views/patient_dashboard.php';
     }
     
-    // Process the appointment booking form.
     public function bookAppointment() {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
