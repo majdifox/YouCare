@@ -11,7 +11,7 @@ class Admin {
     
     // Get all users from the users table
     public function getAllUsers(){
-        $this->db->query("SELECT * FROM public.users ORDER BY created_at DESC");
+        $this->db->query("SELECT * FROM public.users WHERE role <> 'admin'  ORDER BY created_at DESC");
         return $this->db->fetchAll();
     }
     
