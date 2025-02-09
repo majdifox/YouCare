@@ -8,7 +8,7 @@ class User {
         $this->db = new Database();
     }
 
-    // Register a new user with role-based data
+
     public function register($first_name, $last_name, $email, $password, $phone, $role, $extra) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         
@@ -39,7 +39,6 @@ class User {
             $this->db->bind(':phone', $phone);
             $this->db->bind(':role', $role);
         } else {
-            // Fallback for any other role
             $sql = "INSERT INTO public.users (first_name, last_name, email, password, phone, role)
                     VALUES (:first_name, :last_name, :email, :password, :phone, :role)
                     RETURNING id";
@@ -52,14 +51,12 @@ class User {
             $this->db->bind(':role', $role);
         }
         
-        // Execute and retrieve the new user's id
         $result = $this->db->fetch();
         if (!$result) {
             return false;
         }
         $user_id = $result['id'];
 
-        // Insert into role-specific table
         if ($role == 'doctor') {
             $sql = "INSERT INTO public.doctors (user_id, first_name, last_name, speciality, years_of_xp, phone)
                     VALUES (:user_id, :first_name, :last_name, :speciality, :years_of_xp, :phone)";
@@ -89,7 +86,6 @@ class User {
         }
     }
 
-    // Login an existing user (using email and password)
     public function login($email, $password) {
         $this->db->query("SELECT * FROM public.users WHERE email = :email");
         $this->db->bind(':email', $email);
