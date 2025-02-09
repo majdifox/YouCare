@@ -14,4 +14,3 @@
     <p>Don't have an account? <a href="index.php?action=register_form">Register here</a></p>
 </body>
 </html>
-    

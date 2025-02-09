@@ -2,15 +2,16 @@
 class Database {
     // Inline database configuration
     private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'mvc_login_system';
+    private $user = 'postgres';
+    private $pass = '15111964bmw';
+    private $dbname = 'youcare';
+    private $port = '5432';
 
     private $dbh;
     private $stmt;
 
     public function __construct() {
-        $dsn = "mysql:host={$this->host};dbname={$this->dbname}";
+        $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->dbname}";
         try {
             $this->dbh = new PDO($dsn, $this->user, $this->pass);
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,13 +20,26 @@ class Database {
         }
     }
 
+
     public function query($sql) {
         $this->stmt = $this->dbh->prepare($sql);
     }
 
     public function bind($param, $value, $type = null) {
         if (is_null($type)) {
-            $type = is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR;
+            switch (true) {
+                case is_int($value):
+                    $type = PDO::PARAM_INT;
+                    break;
+                case is_bool($value):
+                    $type = PDO::PARAM_BOOL;
+                    break;
+                case is_null($value):
+                    $type = PDO::PARAM_NULL;
+                    break;
+                default:
+                    $type = PDO::PARAM_STR;
+            }
         }
         $this->stmt->bindValue($param, $value, $type);
     }
@@ -44,3 +58,4 @@ class Database {
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+?>

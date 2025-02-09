@@ -8,22 +8,34 @@ class AuthController {
         $this->userModel = new User();
     }
 
-    // Handle user registration
+    // Handle user registration with role-based fields
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name     = $_POST['name'] ?? '';
-            $email    = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
+            // Common fields
+            $first_name = $_POST['first_name'] ?? '';
+            $last_name  = $_POST['last_name'] ?? '';
+            $email      = $_POST['email'] ?? '';
+            $password   = $_POST['password'] ?? '';
+            $phone      = $_POST['phone'] ?? '';
+            $role       = $_POST['role'] ?? '';
 
-            if ($this->userModel->register($name, $email, $password)) {
-                // Redirect to login page (adjust URL as needed)
+            $extra = [];
+            if ($role === 'doctor') {
+                $extra['speciality'] = $_POST['speciality'] ?? '';
+                $extra['years_of_xp'] = $_POST['years_of_xp'] ?? '';
+            } elseif ($role === 'patient') {
+                $extra['birth_date'] = $_POST['birth_date'] ?? '';
+                $extra['address']    = $_POST['address'] ?? '';
+            }
+
+            if ($this->userModel->register($first_name, $last_name, $email, $password, $phone, $role, $extra)) {
                 header("Location: index.php?action=login_form");
                 exit();
             } else {
                 echo "Registration failed!";
             }
         } else {
-            // If not a POST request, show the registration form
+            // Display registration form if not a POST request
             include __DIR__ . '/../views/register.php';
         }
     }
@@ -39,14 +51,12 @@ class AuthController {
             if ($user) {
                 session_start();
                 $_SESSION['user'] = $user;
-                // Redirect to dashboard or another secure page
                 header("Location: dashboard.php");
                 exit();
             } else {
                 echo "Invalid login credentials!";
             }
         } else {
-            // If not a POST request, show the login form
             include __DIR__ . '/../views/login.php';
         }
     }
