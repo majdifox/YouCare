@@ -1,6 +1,5 @@
 <?php
-// App/Views/patient_dashboard.php
-// Expected variables: $appointments, $doctorList
+
 $title = "Patient Dashboard - YouCare";
 ob_start();
 ?>

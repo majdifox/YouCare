@@ -1,5 +1,5 @@
 <?php
-// App/Views/login.php
+
 $title = "Login - YouCare";
 ob_start();
 ?>

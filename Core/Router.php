@@ -1,27 +1,18 @@
 <?php
-/**
- * Router.php
- *
- * This file handles dynamic routing for the application.
- * It inspects the URL's query parameter (action) and routes
- * the request to the corresponding controller or view.
- */
 
-// Start the session once at the beginning
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include controllers manually (or use Composer autoloading if available)
+
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/AdminController.php';
 require_once __DIR__ . '/../app/controllers/DoctorController.php';
 require_once __DIR__ . '/../app/controllers/PatientController.php';
 
-// Get the 'action' query parameter from the URL
+
 $action = $_GET['action'] ?? '';
 
-// Route the request based on the action value
 switch ($action) {
     // Authentication routes
     case 'register':

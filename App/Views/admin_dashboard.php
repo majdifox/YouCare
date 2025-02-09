@@ -1,6 +1,5 @@
 <?php
-// App/Views/admin_dashboard.php
-// Expected variables: $stats, $users, $pendingRendezVous
+
 $title = "Admin Dashboard - YouCare";
 ob_start();
 ?>

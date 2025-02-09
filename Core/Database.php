@@ -1,6 +1,5 @@
 <?php
 class Database {
-    // Inline database configuration
     private $host = 'localhost';
     private $user = 'postgres';
     private $pass = '15111964bmw';

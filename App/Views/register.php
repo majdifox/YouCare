@@ -1,5 +1,5 @@
 <?php
-// App/Views/register.php
+
 $title = "Register - YouCare";
 ob_start();
 ?>
