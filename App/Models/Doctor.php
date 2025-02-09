@@ -1,5 +1,4 @@
 <?php
-// File: /app/models/Doctor.php
 require_once __DIR__ . '/../../core/Database.php';
 
 class Doctor {
@@ -9,14 +8,12 @@ class Doctor {
         $this->db = new Database();
     }
     
-    // Get the doctor's record using the user ID from the public.users table.
     public function getDoctorByUserId($user_id) {
         $this->db->query("SELECT * FROM public.doctors WHERE user_id = :user_id");
         $this->db->bind(':user_id', $user_id);
         return $this->db->fetch();
     }
     
-    // Get confirmed rendez-vous (appointments) for this doctor.
     public function getConfirmedRendezVous($doctor_id) {
         $this->db->query("
             SELECT 
@@ -34,10 +31,8 @@ class Doctor {
         $this->db->bind(':doctor_id', $doctor_id);
         return $this->db->fetchAll();
     }
-    
-    // Update the status of a rendez-vous based on doctor's decision.
+
     public function updateRendezVousStatus($rdv_id, $status) {
-        // For doctor's actions: Accept -> update status to "termin", Refuse -> update to "cancel"
         $this->db->query("UPDATE public.rendez_vous 
                           SET status = :status, updated_at = CURRENT_TIMESTAMP 
                           WHERE id = :rdv_id");
